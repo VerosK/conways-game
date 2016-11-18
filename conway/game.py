@@ -40,32 +40,12 @@ class ConwaysGame:
         return numpy.count_nonzero(self._data)
 
     def _number_of_neighbourds(self, x, y):
-        count = 0
-        _d = self._data
-        for dx in (-1, 0, +1):
-            for dy in (-1, 0, +1):
-                if dx == dy == 0: continue
-                _x, _y = x + dx, y + dy
-                if _x < 0: continue
-                if _y < 0: continue
-                if _x >= _d.shape[0]: continue
-                if _y >= _d.shape[1]: continue
-                if _d[_x][_y]:
-                    count += 1
-        return count
+        raise NotImplemented
 
     def _count_new_state(self, x, y):
         """Spocitat a vrati novy stav bunky na `x`, `y`
         """
-        state_now = self._data[x][y]
-        neighbourds = self._number_of_neighbourds(x,y)
-        if state_now:   # I'm alive
-            if neighbourds < 2: return False
-            if 2 <= neighbourds <= 3: return True
-            if 4 <= neighbourds: return False
-        else:   # I'm dead now
-            if neighbourds == 3: return True
-            return False
+        raise NotImplemented
 
     def next_step(self):
         """
@@ -74,11 +54,9 @@ class ConwaysGame:
         shape = self._data.shape
         _new_cells = numpy.zeros(
                 dtype=bool, shape=shape)
-        #
-        for x in range(shape[0]):
-            for y in range(shape[1]):
-                new_state = self._count_new_state(x, y)
-                _new_cells[x][y] = new_state
+        # TODO: Count new state here
+        # XXX Prepare random matrix as a placeholder 
+        _new_cells = numpy.random.random(shape) < 0.05
         self._data = _new_cells
 
     def dump(self, fileobj=sys.stdout):
